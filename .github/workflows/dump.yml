@@ -3,6 +3,8 @@ name: Dump ASpell Dics
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
+  repository_dispatch:
+    types: dump
   schedule:
     - cron: "0 0 1 * *"
 
