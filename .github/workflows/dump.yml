@@ -1,0 +1,43 @@
+name: Dump ASpell Dics
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+      
+    - name: Install apsell
+      run: apt-get update && apt-get install aspell*
+      
+    - name: Dump the files
+      run: ./dump.sh
+
+    # Runs a set of commands usin .g the runners shell
+    - name: Commit workspace
+      uses: gha-utilities/workspace-commit@v0.0.3
+      env:
+        COMMIT_FOOTER: This commit was automatically created from Github Actions
+      with:
+        message: >
+          Update aspell dics
+          
+          ${COMMIT_FOOTER}
+        all: true
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        
+      
+      
