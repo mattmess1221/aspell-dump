@@ -18,11 +18,14 @@ jobs:
         persist-credentials: false
         fetch-depth: 0
       
-    - name: Install apsell
+    - name: Install aspell
       run: sudo apt-get update && sudo apt-get install aspell*
       
     - name: Dump the files
       run: ./dump.sh
+
+    - name: Add files to commit
+      run: git add -A
 
     # Runs a set of commands usin .g the runners shell
     - name: Commit workspace
