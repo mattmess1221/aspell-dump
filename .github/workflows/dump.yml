@@ -19,7 +19,7 @@ jobs:
         fetch-depth: 0
       
     - name: Install apsell
-      run: apt-get update && apt-get install aspell*
+      run: sudo apt-get update && sudo apt-get install aspell*
       
     - name: Dump the files
       run: ./dump.sh
