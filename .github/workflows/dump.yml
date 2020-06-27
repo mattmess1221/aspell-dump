@@ -24,25 +24,14 @@ jobs:
     - name: Dump the files
       run: ./dump.sh
 
-    - name: Add files to commit
-      run: git add -A
-
-    # Runs a set of commands usin .g the runners shell
-    - name: Commit workspace
-      uses: gha-utilities/workspace-commit@v0.0.3
-      env:
-        COMMIT_FOOTER: This commit was automatically created from Github Actions
+    - name: Commit and push workspace
+      uses: github-actions-x/commit@v2.6
       with:
-        message: >
-          Update aspell dics
-          
-          ${COMMIT_FOOTER}
-        all: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        push-branch: master
+        commit-message: Update aspell dics
+        files: dics/
+        name: Github Actions
+        email: actions@github.com
         
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        
-      
       
