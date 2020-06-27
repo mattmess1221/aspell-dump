@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Dumps all the installed aspell dictionaries to the dics directory. There will
 # also be a gzipped copy.
@@ -13,10 +13,15 @@
 # fedora + centos 8
 # sudo dnf install aspell*
 
-mkdir dics
+mkdir -p dics
 rm -rf dics/*
 
-aspell dump dicts | while read lang; do
-    echo "$lang.dic"
-    aspell --encoding=UTF-8 --lang="$lang" dump master | tee "dics/$lang.dic" | gzip > "dics/$lang.dic.gz"
+aspell dump dicts | while read -r lang; do
+    key="${lang:0:2}"
+    mkdir -p "dics/$key"
+    dic="dics/$key/$lang.dic"
+
+    echo "Dumping $dic"
+
+    aspell --encoding=UTF-8 --lang="$lang" dump master | tee "$dic" | gzip > "$dic.gz"
 done
